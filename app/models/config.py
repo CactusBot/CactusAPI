@@ -8,13 +8,17 @@ class Config:
     ignore = ("password", )
 
     def __init__(self, token=None, services=None, announce=None, spam=None,
-                 whitelisted_urls=[], **kwargs):
+                 whitelisted_urls=[], whitelisted_words=[],
+                 blacklisted_urls=[], blacklisted_words=[], **kwargs):
         # TODO: Don't add if None
         self.token = token
         self.services = services
         self.announce = announce
         self.spam = spam
         self.whitelisted_urls = whitelisted_urls
+        self.whitelisted_words = whitelisted_words
+        self.blacklisted_urls = blacklisted_urls
+        self.blacklisted_words = blacklisted_words
 
     @staticmethod
     def default_data(token=None):
@@ -23,7 +27,8 @@ class Config:
             "services": [Service().__dict__],
             "announce": Announcements().__dict__,
             "spam": Spam().__dict__,
-            "whitelisted_urls": []
+            "whitelist": Whitelist().__dict__,
+            "blacklist": Blacklist().__dict__
         }
 
 
@@ -83,3 +88,25 @@ class Spam:
         self.maxEmoji = maxEmoji
         self.allowUrls = allowUrls
         self.maxCapsScore = maxCapsScore
+
+
+class Whitelist:
+    """
+    Dummy class to keep track of sub-configs. Perhaps will implement proper
+    loading later
+    """
+
+    def __init__(self, whitelisted_urls=[], whitelisted_words=[]):
+        self.whitelisted_urls = whitelisted_urls
+        self.whitelisted_words = whitelisted_words
+
+
+class Blacklist:
+    """
+    Dummy class to keep track of sub-configs. Perhaps will implement proper
+    loading later
+    """
+
+    def __init__(self, blacklisted_urls=[], blacklisted_words=[]):
+        self.blacklisted_urls = blacklisted_urls
+        self.blacklisted_words = blacklisted_words

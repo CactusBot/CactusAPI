@@ -39,6 +39,9 @@ def pytest_sessionfinish(session):
     for key in rethink.db("testing").table_list().run(r):
         if key not in ("keys", "users"):
             rethink.db("testing").table(key).delete().run(r)
+        else:
+            rethink.db("testing").table(key).filter(
+                rethink.row["token"] != "root").delete().run(r)
 
 
 @pytest.fixture
